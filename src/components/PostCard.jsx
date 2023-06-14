@@ -13,7 +13,7 @@ function PostCard({ post, currentId }) {
     <>
       <Row className="align-items-md-center">
         <Col xs={6} md={1}>
-          <Image src={avatar} width={20} roundedCircle fluid />
+          <Image src={avatar} roundedCircle fluid />
         </Col>
         <Col>
           <Card.Title>{title}</Card.Title>

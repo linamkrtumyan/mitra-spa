@@ -8,11 +8,14 @@ import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import Col from "react-bootstrap/Col";
+import PaginationComponent from "../../components/PaginationComponent";
 
 function HomePage({ getNews, posts }) {
   const [currentId, setCurrentId] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
   const [value, setValue] = useState("");
+  const [postPerPage, setPostPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!posts) {
@@ -43,6 +46,9 @@ function HomePage({ getNews, posts }) {
   const handleSortByDesc = () => {
     setAllPosts([...allPosts.sort((a, b) => b.title.localeCompare(a.title))]);
   };
+
+  const indexOfLastPost = currentPage * postPerPage;
+  const indexOfFirstPost = indexOfLastPost - postPerPage;
 
   return (
     <div>
@@ -86,6 +92,7 @@ function HomePage({ getNews, posts }) {
           .filter((name) =>
             name.title.toLowerCase().includes(value.toLowerCase())
           )
+          .slice(indexOfFirstPost, indexOfLastPost)
           .map((post) => {
             return (
               <>
@@ -108,6 +115,17 @@ function HomePage({ getNews, posts }) {
               </>
             );
           })}
+
+      {allPosts && (
+        <div className="d-flex justify-content-center">
+          <PaginationComponent
+            totalPosts={allPosts.length}
+            postPerPage={postPerPage}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+      )}
     </div>
   );
 }

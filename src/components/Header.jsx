@@ -9,7 +9,7 @@ function Header() {
     <>
       <Navbar bg="light" expand={false} className="mb-3">
         <Container fluid>
-          <Navbar.Brand href="/home">Mira SPA</Navbar.Brand>
+          <Navbar.Brand href="/">Mira SPA</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand`}
