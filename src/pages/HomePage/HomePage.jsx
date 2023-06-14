@@ -6,17 +6,20 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
+import Dropdown from "react-bootstrap/Dropdown";
+import Col from "react-bootstrap/Col";
 
 function HomePage({ getNews, posts }) {
-  console.log(posts, "posts");
   const [currentId, setCurrentId] = useState(null);
+  const [allPosts, setAllPosts] = useState([]);
   const [value, setValue] = useState("");
 
   useEffect(() => {
     if (!posts) {
       getNews();
     }
-  }, []);
+    setAllPosts(posts);
+  }, [posts]);
 
   const toggleShow = (id) => {
     if (id === currentId) {
@@ -33,30 +36,53 @@ function HomePage({ getNews, posts }) {
     setValue("");
   };
 
+  const handleSortByAsc = () => {
+    setAllPosts([...allPosts.sort((a, b) => a.title.localeCompare(b.title))]);
+  };
+
+  const handleSortByDesc = () => {
+    setAllPosts([...allPosts.sort((a, b) => b.title.localeCompare(a.title))]);
+  };
+
   return (
     <div>
-      <div className="position-relative">
-        <Form.Control
-          className="m-4 w-50 position-relative t-0"
-          type="text"
-          placeholder="Search"
-          onChange={(e) => handleChange(e)}
-          value={value}
-        />
-        {value && (
-          <span
-            role="button"
-            onClick={handleClear}
-            style={{ top: 6, right: "50%" }}
-            className="position-absolute"
-          >
-            ✖
-          </span>
-        )}
-      </div>
+      <Row>
+        <Col>
+          <div className="position-relative">
+            <Form.Control
+              className="m-4 w-50 position-relative t-0"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => handleChange(e)}
+              value={value}
+            />
+            {value && (
+              <span
+                role="button"
+                onClick={handleClear}
+                style={{ top: 6, right: "50%" }}
+                className="position-absolute"
+              >
+                ✖
+              </span>
+            )}
+          </div>
+        </Col>
+        <Col className="m-4 d-flex justify-content-end">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              Sort by
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={handleSortByAsc}>A-Z</Dropdown.Item>
+              <Dropdown.Item onClick={handleSortByDesc}>Z-A</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+      </Row>
 
-      {posts &&
-        posts
+      {allPosts &&
+        allPosts
           .filter((name) =>
             name.title.toLowerCase().includes(value.toLowerCase())
           )
