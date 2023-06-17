@@ -12,6 +12,18 @@ const reducer = (state = {}, action) => {
     case "COMMENTS_RECEIVED":
       return { ...state, comments: action.json, commentLoading: false };
 
+    case "GET_USER":
+      return { ...state, userLoading: true };
+
+    case "USER_RECEIVED":
+      return { ...state, user: action.json, userLoading: false };
+
+    case "GET_USER_POSTS":
+      return { ...state, userPostsLoading: true };
+
+    case "USER_POSTS_RECEIVED":
+      return { ...state, userPosts: action.json, userPostsLoading: false };
+
     default:
       return state;
   }
